@@ -5,7 +5,6 @@ Python MCP Server Boilerplate
 Model Context Protocol (MCP)に準拠したPythonサーバーのボイラープレート
 """
 
-import os
 import sys
 import argparse
 import importlib

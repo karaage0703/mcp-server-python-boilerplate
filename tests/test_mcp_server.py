@@ -3,8 +3,7 @@ MCPサーバーのテスト
 """
 
 import json
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from src.mcp_server import MCPServer
 

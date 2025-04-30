@@ -2,11 +2,9 @@
 サンプルツールのテスト
 """
 
-import json
 import platform
 from datetime import datetime
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 
 from src.example_tool import get_system_info, get_current_time, echo, register_example_tools
 

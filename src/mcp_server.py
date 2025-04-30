@@ -8,8 +8,7 @@ JSON-RPC over stdioを使用してクライアントからのリクエストを�
 import sys
 import json
 import logging
-import importlib
-from typing import Dict, Any, List, Optional, Callable, Type
+from typing import Dict, Any, List, Callable
 from pathlib import Path
 
 
