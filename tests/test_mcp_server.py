@@ -133,3 +133,59 @@ def test_handle_tools_call_error(mock_send_result):
     args, _ = mock_send_result.call_args
     assert args[0]["isError"] is True
     assert "Test error" in args[0]["content"][0]["text"]
+
+
+@patch("src.mcp_server.MCPServer._send_result")
+def test_handle_notifications_initialized(mock_send_result):
+    """notifications/initializedメソッドの処理をテストします"""
+    server = MCPServer()
+
+    # notifications/initializedメソッドを呼び出し（request_idありの場合）
+    server._handle_notifications_initialized({}, 1)
+
+    # _send_resultが正しく呼び出されていることを確認
+    mock_send_result.assert_called_once_with({}, 1)
+
+
+def test_handle_notifications_initialized_no_response():
+    """notifications/initializedメソッドの処理をテストします（応答不要の場合）"""
+    server = MCPServer()
+
+    # notifications/initializedメソッドを呼び出し（request_idなしの場合）
+    # 例外が発生しないことを確認
+    server._handle_notifications_initialized({}, None)
+
+
+@patch("src.mcp_server.MCPServer._send_result")
+def test_handle_resources_list(mock_send_result):
+    """resources/listメソッドの処理をテストします"""
+    server = MCPServer()
+
+    # resources/listメソッドを呼び出し
+    server._handle_resources_list({}, 1)
+
+    # _send_resultが正しく呼び出されていることを確認
+    mock_send_result.assert_called_once_with({"resources": []}, 1)
+
+
+@patch("src.mcp_server.MCPServer._send_result")
+def test_handle_resources_templates_list(mock_send_result):
+    """resources/templates/listメソッドの処理をテストします"""
+    server = MCPServer()
+
+    # resources/templates/listメソッドを呼び出し
+    server._handle_resources_templates_list({}, 1)
+
+    # _send_resultが正しく呼び出されていることを確認
+    mock_send_result.assert_called_once_with({"resourceTemplates": []}, 1)
+
+
+def test_get_resource_templates():
+    """_get_resource_templatesメソッドをテストします"""
+    server = MCPServer()
+
+    # リソーステンプレートの一覧を取得
+    resource_templates = server._get_resource_templates()
+
+    # 空のリストが返されることを確認
+    assert resource_templates == []
