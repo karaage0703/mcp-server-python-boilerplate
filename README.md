@@ -28,7 +28,7 @@ Python MCP Server Boilerplateは、Model Context Protocol (MCP)に準拠したPy
 
 ```bash
 # uvがインストールされていない場合は先にインストール
-# pip install uv
+# curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # 依存関係のインストール
 uv sync
