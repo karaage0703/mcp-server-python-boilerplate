@@ -15,6 +15,13 @@
 
 #### 1.3.1 MCPサーバーの基本実装
 - JSON-RPC over stdioベースで動作
+- MCP標準プロトコルに準拠したAPIエンドポイント
+  - `initialize`: サーバーの初期化
+  - `notifications/initialized`: クライアントの初期化完了通知
+  - `tools/list`: ツール一覧の取得
+  - `tools/call`: ツールの実行
+  - `resources/list`: リソース一覧の取得
+  - `resources/templates/list`: リソーステンプレート一覧の取得
 - ツールの登録と実行のためのメカニズム
 - エラーハンドリングとロギング
 
@@ -78,7 +85,15 @@
 class MCPServer:
     def register_tool(name: str, description: str, input_schema: Dict[str, Any], handler: Callable) -> None
     def start(server_name: str, version: str, description: str) -> None
+    def _handle_request(request: Dict[str, Any]) -> None
+    def _handle_initialize(params: Dict[str, Any], request_id: Any) -> None
+    def _handle_notifications_initialized(params: Dict[str, Any], request_id: Any) -> None
+    def _handle_tools_list(request_id: Any) -> None
     def _handle_tools_call(params: Dict[str, Any], request_id: Any) -> None
+    def _handle_resources_list(params: Dict[str, Any], request_id: Any) -> None
+    def _handle_resources_templates_list(params: Dict[str, Any], request_id: Any) -> None
+    def _get_resources() -> List[Dict[str, Any]]
+    def _get_resource_templates() -> List[Dict[str, Any]]
 ```
 
 ##### サンプルツール関数
@@ -90,10 +105,18 @@ def echo(params: Dict[str, Any]) -> Dict[str, Any]
 
 ### 2.3 インターフェース設計
 
-- JSON-RPCエンドポイント:
-  - `get_system_info`: システム情報を取得
-  - `get_current_time`: 現在の日時を取得
-  - `echo`: 入力されたテキストをそのまま返す
+#### 2.3.1 MCP標準エンドポイント
+- `initialize`: サーバーの初期化
+- `notifications/initialized`: クライアントの初期化完了通知
+- `tools/list`: 利用可能なツールの一覧取得
+- `tools/call`: ツールの実行
+- `resources/list`: 利用可能なリソースの一覧取得
+- `resources/templates/list`: リソーステンプレートの一覧取得
+
+#### 2.3.2 カスタムツールエンドポイント
+- `get_system_info`: システム情報を取得
+- `get_current_time`: 現在の日時を取得
+- `echo`: 入力されたテキストをそのまま返す
 
 ### 2.4 セキュリティ設計
 
